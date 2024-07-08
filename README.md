@@ -7,15 +7,14 @@ Radar4Motion is a robust odometry method that utilizes Doppler and RCS informati
 
 The code will be uploaded after the review process!
 
-## Demo
 <div align="center">
-<p float="center">
-<img src="./docs/lidar_versus_radar.png" width="600"/>
+<img src="docs/system_architecture.png" width="700"/>
 <br />
-<b>32ch LiDAR (beige) vs. 4D Imaging Radar (rainbow)</b>
-</p>
+<b>System architecture</b>
 </div>
+<br>
 
+## Demo
 <div align="center">
 <p float="center">
 <img src="./docs/vod03.gif" width="600"/>
