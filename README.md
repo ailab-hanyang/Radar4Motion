@@ -1,11 +1,18 @@
+<div align="center">
+    <a href="https://ieeexplore.ieee.org/abstract/document/10715681" style="text-decoration:none;">
+    <img src="https://img.shields.io/badge/Paper-T--IV-blue"/></a>
+</div>
+
+**IMPORTANT**: This repository has been accepted for publication in T-IV!🔥
+The code is currently being organized and is scheduled for upload by the end of this year. Thank you!
+
+<div align="center">
 <img src="docs/logo.png" align="right" width="30%">
+</div>
 
 # Radar4Motion: IMU-Free 4D Radar Odometry with Robust Dynamic Filtering and RCS-Weighted Matching
-Codes for paper "*Radar4Motion: IMU-Free 4D Radar Odometry with Robust Dynamic Filtering and RCS-Weighted Matching*"
 
 Radar4Motion is a robust odometry method that utilizes Doppler and RCS information from the 4D imaging radar's point cloud, even in the presence of noisy and sparse point cloud data.
-
-The code will be uploaded after the review process!
 
 <div align="center">
 <img src="docs/system_architecture.png" width="700"/>
