@@ -1,0 +1,3 @@
+[submodule "include/ini_handler_cpp"]
+	path = include/ini_handler_cpp
+	url = http://KUAilab.synology.me:30000/ailabtools/ini_handler_cpp.git

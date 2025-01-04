@@ -1,0 +1,41 @@
+
+<launch>
+    <node pkg="radar4motion" type="radar4motion" name="radar4motion" output="screen">
+        <!-- ini path -->
+        <param name="str_odom_ini_path"            value="$(find radar4motion)/config/radar_point_cloud_odometry_online.ini"/>
+        <param name="str_radar_ego_motion_ini_path"         value="$(find radar4motion)/config/radar_ego_motion_estimation.ini"/>
+
+        <!-- Offline version (VoD Dataset) -->
+        <param name="b_flag_run_vod_dataset"            value="false"/>
+        <param name="str_vod_dataset_base_path"             value="$(find radar4motion)/dataset/"/>
+        <param name="scenario_num"                      value="1"/>
+        
+        <!-- Set virtual frame rate for sequentially reading VoD dataset -->
+        <param name="i_vod_frame_rate"                  value="100"/> 
+
+        <!-- Set eval result file path -->
+        <param name="vod_eval_folder_path"              value="$(find radar4motion)/test"/>
+
+        <!-- Online version (ROS topic) -->
+        <param name="s_input_points_"                   value="/radar_point_cloud"/>
+
+        <param name="str_origin_"                       value="Map"/>
+        <param name="str_base_link_"                    value="radar"/>
+
+        <param name="str_rcs_field_name_"               value="RCS"/>
+        <param name="str_power_field_name_"             value="power"/>
+
+        <param name="b_accum_whole_point_clouds_"     value="true"/>
+
+        <param name="d_map_voxel_leaf_size_"       value="0.5"/>
+        
+
+        <param name="min_static_points_num"       value="15"/>
+    </node>
+
+    <arg name="rviz" default="true" />
+    <group if="$(arg rviz)">
+        <node pkg="rviz" type="rviz" name="rviz" args="-d $(find radar4motion)/radar_odom.rviz" />
+    </group>
+
+</launch>

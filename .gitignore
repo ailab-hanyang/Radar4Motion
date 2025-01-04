@@ -1,0 +1,6 @@
+build/
+devel/
+dataset/view_of_delft_PUBLIC
+test/
+
+.vscode
