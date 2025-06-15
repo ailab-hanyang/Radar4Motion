@@ -428,39 +428,32 @@ bool RadarEgoVelocityEstimator::solve3DLsq(const Matrix& radar_data, Vector3& v_
   Real cond = svd.singularValues()(0) / svd.singularValues()(svd.singularValues().size() - 1);
 
   // if (std::fabs(cond) < 1.0e3)
-  if (1)
+  if (config_.use_cholesky_instead_of_bdcsvd)
+    v_r = (HTH).ldlt().solve(H.transpose() * y);
+  else
+    v_r = H.bdcSvd(Eigen::ComputeThinU | Eigen::ComputeThinV).solve(y);
+
+  if (estimate_sigma)
   {
-    if (config_.use_cholesky_instead_of_bdcsvd)
-      v_r = (HTH).ldlt().solve(H.transpose() * y);
-    else
-      v_r = H.bdcSvd(Eigen::ComputeThinU | Eigen::ComputeThinV).solve(y);
+    const Vector e    = H * v_r - y;
+    P_v_r             = (e.transpose() * e).x() * (HTH).inverse() / (H.rows() - 3);
+    Vector3 sigma_v_r = Vector3(P_v_r(0, 0), P_v_r(1, 1), P_v_r(2, 2));
 
-    if (estimate_sigma)
+    const Vector3 offset =
+        Vector3(config_.sigma_offset_radar_x, config_.sigma_offset_radar_y, config_.sigma_offset_radar_z)
+            .array()
+            .square();
+    P_v_r += offset.asDiagonal();
+
+    // check diagonal for valid estimation result
+    if (sigma_v_r.x() >= 0.0 && sigma_v_r.y() >= 0.0 && sigma_v_r.z() >= 0.)
     {
-      const Vector e    = H * v_r - y;
-      P_v_r             = (e.transpose() * e).x() * (HTH).inverse() / (H.rows() - 3);
-      Vector3 sigma_v_r = Vector3(P_v_r(0, 0), P_v_r(1, 1), P_v_r(2, 2));
-
-      const Vector3 offset =
-          Vector3(config_.sigma_offset_radar_x, config_.sigma_offset_radar_y, config_.sigma_offset_radar_z)
-              .array()
-              .square();
-      P_v_r += offset.asDiagonal();
-
-      // check diagonal for valid estimation result
-      if (sigma_v_r.x() >= 0.0 && sigma_v_r.y() >= 0.0 && sigma_v_r.z() >= 0.)
-      {
-        sigma_v_r = sigma_v_r.array().sqrt();
-        if (sigma_v_r.x() < config_.max_sigma_x && sigma_v_r.y() < config_.max_sigma_y &&
-            sigma_v_r.z() < config_.max_sigma_z)
-          return true;
-      }
-    }
-    else
-    {
-      return true;
+      sigma_v_r = sigma_v_r.array().sqrt();
+      if (sigma_v_r.x() < config_.max_sigma_x && sigma_v_r.y() < config_.max_sigma_y &&
+          sigma_v_r.z() < config_.max_sigma_z)
+        return true;
     }
   }
 
-  return false;
+  return true;
 }

@@ -97,12 +97,17 @@ If you want to evaluate Radar4Motion with the View-of-Delft (VoD) dataset, pleas
 
 ## Usage
 To start the radar odometry processing, launch the provided ROS launch files:
+(**Deactivate any active conda environment.**)
 - View-of-delft dataset
     ```sh
+    cd ~/catkin_ws/src
+    source devel/setup.bash
     roslaunch radar4motion radar4motion_offline.launch
     ```
 - ROS topic
     ```sh
+    cd ~/catkin_ws/src
+    source devel/setup.bash
     roslaunch radar4motion radar4motion_online.launch
     ```
 - **Note**: The *accumulated scans-to-submap matching* algorithm requires **precise sensor-vehicle calibration**.  
